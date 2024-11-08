@@ -7,9 +7,20 @@ tbc
 Download the repository and `HalfCrashHandler.exe` from the releases.
 
 Create a folder with the content from the repository and `HalfCrashHandler.exe`,
-create a game folder, and in it a `config.lua` file.
+create a `game` folder, and in it a `config.lua` file.
 
-`config.lua` structure:
+### project structure:
+```md
+.
+├── engine
+├── game/
+│   └── config.lua
+├── HalfCrashHandler.exe
+├── conf.lua
+└── main.lua
+```
+
+### `config.lua` structure:
 ```lua
 --- HE 0.1.0
 return {
