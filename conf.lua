@@ -19,7 +19,7 @@ function print(...)
     local t = {...}
     local str = ""
 
-    for i = 1, t do
+    for i = 1, #t do
         if i == #t then
             str = str .. t[i]
         else
@@ -33,7 +33,8 @@ end
 function crash_handler(err)
     err = err or HALF_ERROR
 
-    os.execute([[HalfCrashHandler.exe "]] .. logs .. [[" "]] .. err .. [["]])
+    -- logs not working
+    os.execute([[HalfCrashHandler.exe "]] .. "" .. [[" "]] .. err .. [["]])
     love.event.quit()
 end
 

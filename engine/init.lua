@@ -3,7 +3,7 @@ local PATH = ... .. "."
 --[[------------------------]]--
 
 half = {
-    _VERSION = "0.1.0",
+    _VERSION = "0.2.0",
 
     gamecfg = nil
 }
@@ -23,4 +23,5 @@ function half.get_game_info()
     return gamecfg
 end
 
+require(PATH .. "enums")
 require(PATH .. "services")

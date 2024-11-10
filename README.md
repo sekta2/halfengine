@@ -14,7 +14,9 @@ create a `game` folder, and in it a `config.lua` file.
 .
 ├── engine
 ├── game/
-│   └── config.lua
+│   ├── config.lua
+│   └── scenes/
+│       └── main.lua
 ├── HalfCrashHandler.exe
 ├── conf.lua
 └── main.lua
@@ -29,12 +31,14 @@ return {
 
     version = "0.0.0",
 
+    scene = "main",
+
     width = 800,
     height = 600,
 
     fullscreen = false,
     borderless = false,
-    resizable = false,
+    resizable = true,
 
     vsync = true,
     msaa = 8
