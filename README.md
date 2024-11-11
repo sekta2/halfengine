@@ -14,9 +14,12 @@ create a `game` folder, and in it a `config.lua` file.
 .
 ├── engine
 ├── game/
-│   ├── config.lua
-│   └── scenes/
-│       └── main.lua
+│   ├── elements
+│   ├── entities
+│   ├── fonts
+│   ├── scenes/
+│   │   └── main.lua
+│   └── config.lua
 ├── HalfCrashHandler.exe
 ├── conf.lua
 └── main.lua
