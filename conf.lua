@@ -10,32 +10,21 @@ function set_half_error(err)
     HALF_ERROR_OCCURED = true
 end
 
-local logs = ""
-local old_print = print
-
-function print(...)
-    old_print(...)
-
-    local t = {...}
-    local str = ""
-
-    for i = 1, #t do
-        if i == #t then
-            str = str .. t[i]
-        else
-            str = str .. t[i] .. "\n"
-        end
-    end
-
-    logs = logs .. str .. "\n"
-end
-
 function crash_handler(err)
     err = err or HALF_ERROR
 
     -- logs not working
     os.execute([[HalfCrashHandler.exe "]] .. "" .. [[" "]] .. err .. [["]])
     love.event.quit()
+end
+
+local function error_printer(msg, layer)
+    print(debug.traceback("Error: " .. tostring(msg), 1 + (layer or 1)):gsub("\n[^\n]+$", ""))
+end
+
+function love.errorhandler(msg)
+    error_printer(msg, 2)
+    crash_handler(msg)
 end
 
 --[[------------------------]]--

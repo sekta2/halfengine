@@ -12,7 +12,7 @@ function half.load_service(name)
         serv = require(PATH .. name)
 
         if type(serv) == "function" then
-            serv = serv(pancake)
+            serv = serv(half)
         end
 
         services[name] = serv

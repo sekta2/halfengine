@@ -13,6 +13,8 @@ function love.load(...)
     local main_scene = gameinfo.scene or "main"
     if not sceneManager.load_scene(main_scene) then crash_handler("No main scene") return end
 
+    half.main_load()
+
     sceneManager.set_scene(main_scene)
 end
 
