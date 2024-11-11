@@ -18,11 +18,10 @@ function ui.load_element(name)
     local element = ui.cache[name]
 
     if element == nil then
-        local elm = middleclass(name, ui.base)
-
-        local success, fn = pcall(require, PATH .. name)
+        local success, fn, base = pcall(require, PATH .. name)
         if not success then ui.cache[name] = false return false end
 
+        local elm = middleclass(name, base and ui.load_element(base) or ui.base)
         fn(elm)
 
         element = elm
