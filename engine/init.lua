@@ -3,7 +3,7 @@ local PATH = ... .. "."
 --[[------------------------]]--
 
 half = {
-    _VERSION = "0.3.1",
+    _VERSION = "0.3.2",
 
     gamecfg = nil
 }
@@ -28,5 +28,5 @@ require(PATH .. "utils")
 require(PATH .. "services")
 
 function half.main_load()
-    require(PATH .. "fonts")
+
 end

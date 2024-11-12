@@ -6,6 +6,17 @@ local draw = {
     flist = {}
 }
 
+local div = 1 / 800
+local div2 = 1 / 600
+
+function draw.screen_scale(w)
+    return (w * div) * lg.getWidth()
+end
+
+function draw.screen_scaleh(h)
+    return (h * div2) * lg.getHeight()
+end
+
 function draw.create_font(name, file_name, size, is_engine_font)
     if file_name == "default" and is_engine_font == nil then is_engine_font = true end
     is_engine_font = is_engine_font ~= nil and is_engine_font or false

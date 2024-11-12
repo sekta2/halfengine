@@ -3,6 +3,8 @@ return function(middleclass)
 local lg = love.graphics
 local lm = love.mouse
 
+local draw = half.load_service("draw")
+
 local BASE = middleclass("BaseElement")
 
 BASE.x = 0
@@ -133,6 +135,14 @@ function BASE:MoveToBack()
 
     table.remove(elements, uid)
     table.insert(elements, self)
+end
+
+--[[----------------------------]]--
+
+set_get_function(BASE, "font", "Font")
+
+function BASE:BuildFont(file_name, size, is_engine_font)
+    self:SetFont(draw.font(file_name, size, is_engine_font))
 end
 
 --[[----------------------------]]--
