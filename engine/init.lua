@@ -3,7 +3,7 @@ local PATH = ... .. "."
 --[[------------------------]]--
 
 half = {
-    _VERSION = "0.3.2",
+    _VERSION = "0.3.3",
 
     gamecfg = nil
 }
@@ -25,8 +25,9 @@ end
 
 require(PATH .. "enums")
 require(PATH .. "utils")
+require(PATH .. "math")
 require(PATH .. "services")
 
 function half.main_load()
-
+    require(PATH .. "color")
 end
