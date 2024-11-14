@@ -3,13 +3,50 @@ if HALF_ERROR_OCCURED then
     return
 end
 
+local lf = love.filesystem
+
 local sceneManager = half.load_service("sceneManager")
 
 local gameinfo = half.get_game_info()
 
 -- Main
 
+local flags = {
+    ["+codeupdate"] = function()
+        function internal_code_update()
+            local info = lf.getInfo("main.lua")
+
+            if info.modtime ~= icu_modtime then
+                local success, err = pcall(lf.load, "main.lua")
+
+                if success then
+                    lf.load("main.lua")()
+                    love.run()
+                else
+                    print(err)
+                end
+
+                icu_modtime = info.modtime
+            end
+        end
+    end,
+
+    ["+debug"] = function()
+        HALF_DEBUG = true
+    end
+}
+
 function love.load(...)
+    local args = {...}
+    local fargs = args[1]
+
+    for i = 1, #fargs do
+        local arg = fargs[i]
+        local fn = flags[arg]
+
+        if fn then fn() end
+    end
+
     local main_scene = gameinfo.scene or "main"
     if not sceneManager.load_scene(main_scene) then crash_handler("No main scene") return end
 
@@ -20,6 +57,10 @@ end
 
 function love.update(dt)
     sceneManager.update(dt)
+
+    if internal_code_update then
+        internal_code_update()
+    end
 end
 
 function love.draw()

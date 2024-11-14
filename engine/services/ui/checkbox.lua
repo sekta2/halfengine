@@ -2,6 +2,7 @@ return function(CHECKBOX)
 
 local lg = love.graphics
 local draw = half.load_service("draw")
+local asset = half.load_service("asset")
 
 local bg = {
     off = Color(38, 13, 13),
@@ -14,8 +15,8 @@ local front = {
 }
 
 local icon = {
-    off = lg.newImage("engine/assets/sprites/checkbox/off.png"),
-    on = lg.newImage("engine/assets/sprites/checkbox/on.png")
+    off = asset.load_sprite("checkbox/off.png", true),
+    on = asset.load_sprite("checkbox/on.png", true)
 }
 
 local icon_clr = {

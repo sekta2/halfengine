@@ -5,6 +5,8 @@ require("engine")
 HALF_ERROR = ""
 HALF_ERROR_OCCURED = false
 
+HALF_DEBUG = false
+
 function set_half_error(err)
     HALF_ERROR = err
     HALF_ERROR_OCCURED = true

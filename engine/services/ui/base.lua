@@ -1,9 +1,9 @@
 return function(middleclass)
 
 local lg = love.graphics
-local lm = love.mouse
 
 local draw = half.load_service("draw")
+local cursor = half.load_service("cursor")
 
 local BASE = middleclass("BaseElement")
 
@@ -62,7 +62,7 @@ function BASE:Center()
 end
 
 function BASE:IsHoveredInternal()
-    local mx, my = lm.getPosition()
+    local mx, my = cursor.getPosition()
 
     local x, y = self:GetPos()
     local w, h = self:GetSize()
@@ -147,7 +147,7 @@ end
 
 --[[----------------------------]]--
 
-function BASE:OnMouseMoved(x, y, dx, dy)
+function BASE:OnCursorMoved(x, y, dx, dy)
 end
 
 function BASE:OnPressed(x, y, button)
