@@ -1,3 +1,5 @@
+[Russian/Русский](https://gitverse.ru/sekta/halfengine)
+
 # halfengine
 
 HalfEngine is an engine based on the LOVE2D framework for creating games, 2D for now
