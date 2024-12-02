@@ -1,18 +1,13 @@
 return {
     id = "HT",
-    name = "Half Test",
-
-    version = "0.0.0",
+    title = "HalfEngine Test",
 
     scene = "main",
 
-    width = 800,
-    height = 600,
+    phys = "windfield",
 
-    fullscreen = false,
-    borderless = false,
-    resizable = true,
-
-    vsync = true,
-    msaa = 8
+    window = {
+        msaa = 8,
+        vsync = 1
+    }
 }

@@ -3,31 +3,33 @@ local PATH = ... .. "."
 --[[------------------------]]--
 
 half = {
-    _VERSION = "0.3.4",
+    _VERSION = "0.5rfs",
 
-    gamecfg = nil
+    game_conf = nil
 }
 
-function half.get_version()
-    return half._VERSION
-end
+---@return table or boolean
+function half.get_config()
+    local conf = half.game_conf
 
-function half.get_game_info()
-    local gamecfg = half.gamecfg
+    if conf == nil then
+        local success, t = pcall(require, "game.config")
+        if not success or not t or type(t) ~= "table" then half.game_conf = false return false end
 
-    if not gamecfg then
-        gamecfg = require("game.config")
-        half.gamecfg = gamecfg
+        conf = t
+        half.game_conf = t
     end
-    
-    return gamecfg
+
+    return conf
 end
 
-require(PATH .. "enums")
-require(PATH .. "utils")
-require(PATH .. "math")
+middleclass = require(PATH .. "thirdparty.middleclass")
+vector = require(PATH .. "thirdparty.vector")
+
+half.util = require(PATH .. "util")
+half.class = require(PATH .. "class")
 require(PATH .. "services")
 
-function half.main_load()
-    require(PATH .. "color")
+function half.load()
+    physics = half.load_service("physics")
 end

@@ -1,57 +1,39 @@
 require("engine")
 
---[[------------------------]]--
-
-HALF_ERROR = ""
 HALF_ERROR_OCCURED = false
 
-HALF_DEBUG = false
-
-function set_half_error(err)
-    HALF_ERROR = err
-    HALF_ERROR_OCCURED = true
-end
-
-function crash_handler(err)
-    err = err or HALF_ERROR
-
-    -- logs not working
-    os.execute([[HalfCrashHandler.exe "]] .. "" .. [[" "]] .. err .. [["]])
-    love.event.quit()
-end
-
-local function error_printer(msg, layer)
-    print(debug.traceback("Error: " .. tostring(msg), 1 + (layer or 1)):gsub("\n[^\n]+$", ""))
-end
-
-function love.errorhandler(msg)
-    error_printer(msg, 2)
-    crash_handler(msg)
-end
-
 --[[------------------------]]--
 
-local success, gamecfg = pcall(half.get_game_info)
-if not success then set_half_error("No game config") return end
-
-local function value_or_setting(val)
-    --val = type(val) == "string" and settings.get(val) or val
-    return val
-end
-
-local vos = value_or_setting
+local conf = half.get_config()
 
 function love.conf(t)
-    t.identity = gamecfg.id
-    t.title = gamecfg.name
+    if not conf then HALF_ERROR_OCCURED = true return end
 
-    t.window.width = vos(gamecfg.width)
-    t.window.height = vos(gamecfg.height)
+    t.identity = conf.id
+    t.version = "11.5"
 
-    t.window.fullscreen = vos(gamecfg.fullscreen)
-    t.window.borderless = vos(gamecfg.borderless)
-    t.window.resizable = vos(gamecfg.resizable)
+    t.window.title = conf.title
 
-    t.window.vsync = vos(gamecfg.vsync)
-    t.window.msaa = vos(gamecfg.msaa)
+    local wp = conf.window
+
+    if wp then
+        t.window.icon = wp.icon or nil
+        t.window.width = wp.width or 800
+        t.window.height = wp.height or 600
+        t.window.borderless = wp.borderless or false
+        t.window.resizable = wp.resizable or false
+        t.window.minwidth = wp.minwidth or 1
+        t.window.minheight = wp.minheight or 1
+        t.window.fullscreen = wp.fullscreen or false
+        t.window.fullscreentype = wp.fullscreentype or "desktop"
+        t.window.vsync = wp.vsync or 1
+        t.window.msaa = wp.msaa or 0
+        t.window.depth = wp.depth or nil
+        t.window.stencil = wp.stencil or nil
+        t.window.display = wp.display or 1
+        t.window.highdpi = wp.highdpi or false
+        t.window.usedpiscale = wp.usedpiscale or true
+        t.window.x = wp.x or nil
+        t.window.y = wp.y or nil
+    end
 end

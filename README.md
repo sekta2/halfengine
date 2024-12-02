@@ -1,49 +1,25 @@
-# HalfEngine
+# halfengine
 
-## Desc
-tbc
+HalfEngine is an engine based on the LOVE2D framework for creating games, 2D for now
 
-## Install
-Download the repository and `HalfCrashHandler.exe` from the releases.
+It makes it pretty easy to create games, it's already out of the box:
 
-Create a folder with the content from the repository and `HalfCrashHandler.exe`,
-create a `game` folder, and in it a `config.lua` file.
+[0.5rfs]
+- GameObject(no components)
+- Class system
+- Scene Manager
+- Physics Wrapper(In the process of finalization)
+- Asset Manager
 
-### project structure:
-```md
-.
-├── engine
-├── game/
-│   ├── elements
-│   ├── entities
-│   ├── fonts
-│   ├── scenes/
-│   │   └── main.lua
-│   └── config.lua
-├── HalfCrashHandler.exe
-├── conf.lua
-└── main.lua
-```
+## Usage
 
-### `config.lua` structure:
-```lua
---- HE 0.1.0
-return {
-    id = "HT",
-    name = "Half Test",
+1. Download the engine repository, click on the Code button, there will be a Download ZIP button below.
+<img src=".docs/pics/readme-tutor.png" width="300"/>
 
-    version = "0.0.0",
+2. Change the config in `game/config.lua`, you can change the size of the game window, make full screen mode, and also it is important to change the ID of your game (something like an abbreviation of the name) and the name itself.
 
-    scene = "main",
+3. Watch [Documentation](.docs/README.md) and [FAQ](.docs/FAQ.md) and start developing your game!
 
-    width = 800,
-    height = 600,
-
-    fullscreen = false,
-    borderless = false,
-    resizable = true,
-
-    vsync = true,
-    msaa = 8
-}
-```
+## Notes
+1. Physics Wrapper - something like Box2D in LOVE2D. Allows you to create circle, square and other primitives with a single function.
+2. GameObject - The name from Unity that denotes a game object, here it is a service (manager if easier) to work with the entity and other things.

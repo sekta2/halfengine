@@ -2,69 +2,82 @@ local PATH = ... .. "."
 
 --[[------------------------]]--
 
-local middleclass = half.load_thirdparty("middleclass")
+local gameObject = half.load_service("gameObject")
 
 local sceneManager = {
-    scenes = {},
-    scene = "",
-    scene_link = nil
+    list = {},
+
+    link = nil,
+    scene = nil
 }
 
-sceneManager.base = require(PATH .. "base")(sceneManager, middleclass)
-
+--- Loads scene class
+---@param name string
+---@return table or boolean
 function sceneManager.load_scene(name)
-    local scene = sceneManager.scenes[name]
+    local scene = sceneManager.list[name]
 
     if scene == nil then
-        local success, fn = pcall(require, "game.scenes." .. name)
+        local _scn = half.class.new(name, "Scene", false)
+
+        _G.SCENE = _scn
+
+        local success, err = pcall(require, "game.scenes." .. name)
         if not success then
-            sceneManager.scenes[name] = false
-            print([[{sceneManager} Error when loading a scene: "]] .. name .. [["]])
-        
+            print([[!!! Error when loading a scene "]] .. name .. [[": ]] .. err)
+
+            _G.SCENE = nil
+
+            setmetatable(_scn, {__mode = "v"})
+            collectgarbage("collect")
+
+            sceneManager.list[name] = false
+            
             return false
         end
 
-        scene = sceneManager.base:new_scene(fn, name)
-        sceneManager.scenes[name] = scene
+        _G.SCENE = nil
+
+        scene = _scn
+        sceneManager.list[name] = _scn
     end
 
     return scene
 end
 
+--- Set scene
+---@param name string
+---@return boolean
 function sceneManager.set_scene(name)
     local scene = sceneManager.load_scene(name)
+    if not scene then return false end
 
-    if scene then
-        local current = sceneManager.scene_link
-
-        if current then
-            setmetatable(current, {__mode = "v"})
-            collectgarbage("collect")
-        end
-
-        ---
-
-        local instance = scene:new_instance()
-
-        sceneManager.scene = name
-        sceneManager.scene_link = instance
+    local link = sceneManager.link
+    if link then
+        sceneManager.link = nil
+        link:Destroy()
     end
+
+    local object_scene = scene:Create()
+
+    sceneManager.scene = name
+    sceneManager.link = object_scene
+
+    return true
 end
 
---[[------------------------]]--
+--- Run event on scene
+---@param evname string
+function sceneManager.event(evname, ...)
+    local link = sceneManager.link
+    if not link then return end
 
-for i = 1, #LOVE_EVENTS do
-    local ev = LOVE_EVENTS[i]
+    local fn = link[evname]
+    if not fn then return end
 
-    sceneManager[ev] = function(...)
-        local link = sceneManager.scene_link
-
-        if link and link[ev] then
-            local fn = link[ev]
-
-            return fn(link, ...)
-        end
-    end
+    fn(link, ...)
 end
+
+require(PATH .. "scene")(sceneManager)
 
 return sceneManager

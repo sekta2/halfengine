@@ -3,25 +3,29 @@ local lg = love.graphics
 --[[------------------------]]--
 
 local asset = {
-    list = {},
-    not_found = lg.newImage("engine/assets/sprites/notfound.png")
+    cache = {}
 }
 
-function asset.get_notfound()
-    return asset.not_found
+function asset.id(path, type)
+    return type .. ":" .. path
 end
 
-function asset.load_sprite(path, is_engine)
-    local real_path = (is_engine and "engine" or "game") .. "/assets/sprites/" .. path
+function asset.load_sprite(path)
+    local id = asset.id(path, "sprite")
 
-    local sprite = asset.list[real_path]
-    
-    if not sprite then
-        local success, res = pcall(lg.newImage, real_path)
-        if not success then asset.list[real_path] = asset.not_found return asset.not_found end
+    local sprite = asset.cache[id]
 
-        sprite = res
-        asset.list[real_path] = res
+    if sprite == nil then
+        local success, img = pcall(lg.newImage, "game/asset/sprite/" .. path)
+        if not success then
+            print([[!!! Error when loading an asset "]] .. path .. [[": ]] .. img)
+            asset.cache[id] = false
+
+            return false
+        end
+
+        sprite = img
+        asset.cache[id] = img
     end
 
     return sprite
